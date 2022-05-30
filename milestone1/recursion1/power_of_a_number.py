@@ -28,6 +28,7 @@
 
 # ************************************************************************************************
 
+# solution1: (bottom up approach - return)
 def find_power(x,n):
     if n == 0:
         return 1
@@ -39,3 +40,38 @@ def find_power(x,n):
 x,n = map(int, input().split())
 
 print(find_power(x,n))
+
+
+# -------------------------
+
+
+# solution2: (top down approach - return)
+def find_power(a,b,res):
+    if b == 0:
+        return res
+    res *= a
+    output = find_power(a,b-1,res)
+    return output
+
+
+# main
+a,b = map(int,input().split())
+print(find_power(a,b,1))
+
+
+
+# ----------------------
+
+
+# solution3: (top down approach - print)
+def find_power(a,b,res):
+    if b == 0:
+        print(res)
+        return
+    res *= a
+    find_power(a,b-1,res)
+
+
+# main
+a,b = map(int,input().split())
+find_power(a,b,1)

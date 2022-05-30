@@ -2,7 +2,7 @@ def fact(n: int) -> int:
 	if n == 0:                      # base case
 		return 1
 
-	smallOutput = fact(n-1)         # hypotheses
+	smallOutput = fact(n-1)         # inductionhypotheses
 	output = n*smallOutput          # induction step
 
 	return output

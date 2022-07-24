@@ -1,6 +1,6 @@
 def isSortedBetter(arr: list, si: int) -> bool:        # "si" is the starting index
 	arr_l = len(arr)
-	if si == arr_l - 1 or si == arr_l:           # if index is 0 or len of array is zero
+	if si == arr_l - 1 or si == arr_l:           # len of array is zero or one
 		return True
 
 	if arr[si] <= arr[si+1]:

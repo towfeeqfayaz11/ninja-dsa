@@ -1,8 +1,22 @@
+# quick sort -> also known as "partition exchange sort"
+#            -> It uses a key element (pivot) for partitioning the elements.
+#            -> One left partition contains all those elements that are smaller than the pivot and 
+#               one right partition contains all those elements which are greater than the pivot element.
+# quick sort vs merge sort
+# quick sort is better than insertion, bubble and selection sort.
+# quick sort is arguablly better than merge sort in some cases
+
+# comparision: Merge sort is more efficient and works faster than quick sort in case of larger array size or datasets.whereas,
+#              Quick sort is more efficient and works faster than merge sort in case of smaller array size or datasets
+
+# time/space complexities: 
+#     quick sort: O(n2),       inplace O(1)
+#     merge sort: O(nlogn),    needs assitional space, O(n)  
 
 
 # solution 1:
 def quickSort(arr, start, end):
-    if start >= end-1:
+    if start >= end-1:              # array is empty or has only one element (array is sorted in that case)
         return
     
     pivot_index = partition(arr, start, end-1)

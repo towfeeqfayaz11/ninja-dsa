@@ -1,5 +1,5 @@
 # NOTE:
-# in python to convert character to ascii and vicee versa we use two functions ord() and chr()
+# in python to convert character to ascii and vice versa we use two functions ord() and chr()
 # character to ascii     --> use ord()   --> gives ascii value corrsponding to a character   --> will work only for single length strings or in other words, a character
 # ascii to character     --> useer chr() --> gives single character corresponding to an ascii value
 

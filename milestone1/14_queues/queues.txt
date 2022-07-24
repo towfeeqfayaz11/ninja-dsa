@@ -1,0 +1,21 @@
+# QUEUE -> FIFO
+# built-in queue
+   => queue can be implemented using queue package
+      > import queue
+        q = queue.Queue()          # initializes queue     (FIFO)
+
+        q.put(1)                   # adds element to queue (add to last)
+        q.put(3)
+        q.put(5)
+
+        while not q.empty():
+        	print(q.get())         # removes and returns the first element in the queue
+
+
+
+# a queue should have five functionalties
+ 1) enqueue()       --> add element to end of queue (or rear part of queue)
+ 2) dequeue()       --> remove element from front of queue
+ 3) front()         --> return the front most element from queue
+ 4) size()          --> should return the size/total elements in queue
+ 5) isEmpty()       --> returns true/false based on if the queue is empty or not

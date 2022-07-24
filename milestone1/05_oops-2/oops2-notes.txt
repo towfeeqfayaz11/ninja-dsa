@@ -1,0 +1,212 @@
+################----------------------------inheritance------------------------###################################
+# Parent Class
+class Vehicle():
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.model=model
+        self.fuel=fuel
+
+# Child Class
+class Car(Vehicle):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof):
+        # Parent Attributes
+        Vehicle.make=make
+        Vehicle.model=model
+        Vehicle.fuel=fuel
+        self.air_conditioning=air_conditioning
+        self.sunroof=sunroof
+myobj=Car("Tesla",2019,"Electric",True,True)
+myobj.__dict__
+
+----------------------------------
+class Vehicle:
+    def __init__(self,color):
+        self.color = color
+class Car(Vehicle):
+    def __init__(self,color,numGears):
+        super().__init__(color)                             # similiar to line 12-15
+        self.numGears = numGears
+c= Car(“black”,5)
+print(c.color)
+
+#-------------------------------------------------------------------------------------------------------------
+########################## inheritance and private members ##########################################
+# Parent Class
+class Vehicle():
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.__model=model
+        self.__fuel=fuel
+    def __private_method_parent(self):
+        print("This is private")
+        
+
+# Child Class
+class Car(Vehicle):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof):
+        # Parent Attributes
+        Vehicle.make=make
+        Vehicle.__model=model
+        Vehicle.__fuel=fuel
+        self.air_conditioning=air_conditioning
+        self.sunroof=sunroof
+    def show_parent_attribute(self):
+        print(Vehicle.make," ",Vehicle.__model," ",Vehicle.__fuel)
+    def show_privatemethod_ofparent(self):
+        self._Vehicle__private_method_parent()
+        
+myobj=Car("Tesla",2019,"Electric",True,True)
+myobj.__dict__
+myobj.show_parent_attribute()
+myobj.make                          
+myobj.model                           # will give error
+myobj.__model                         # will give error
+myobj._Car__model           
+myobj.__private_method_parent()       # will give error
+myobj.show_privatemethod_ofparent()
+
+#--------------------------------------------------
+################ using super method ##############
+# super() function returns the temporary object of the parent class
+  > super(class_name_of_child,self).__init__()
+
+
+# using super function
+# Parent Class
+class Vehicle():
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.__model=model
+        self.__fuel=fuel
+    def __private_method_parent(self):
+        print("This is private")
+        
+# Child Class
+class Car(Vehicle):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof):
+        super(Car,self).__init__(make,model,fuel)
+        self.air_conditioning=air_conditioning
+        self.sunroof=sunroof
+myobj=Car("Tesla",2019,"Electric",True,True)
+myobj.__dict__
+myobj.make
+
+#------------------------------------------------------------------------------------
+######################################### polymorphism ##############################################
+
+# polymorphism is used for method overriding
+# Overloading occurs between the methods in the same class. Overriding methods have the same signature i.e. same name and method arguments. 
+  Overloaded method names are the same but the parameters are different. 
+# the only way to access the parent method in this case would be to initialize the parent object and try to access the parent method
+
+
+
+1+2
+"a"+"b"
+len([1,2,3,4])
+len("my name is lavi")
+# Parent Class
+class Vehicle():
+    current_year=2021
+    base_price=1000
+    
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.__model=model
+        self.__fuel=fuel
+    def __private_method_parent(self):
+        print("This is private")
+    def get_value(self):
+        age=Vehicle.current_year-self.__model
+        return Vehicle.base_price*(1/age)
+# Child Class
+class Car(Vehicle):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof):
+        super(Car,self).__init__(make,model,fuel)
+        self.air_conditioning=air_conditioning
+        self.sunroof=sunroof
+    def get_value(self):
+        Vehicle.base_price=5000
+        age=Vehicle.current_year-self._Vehicle__model
+        print("This is child override method")
+        return Vehicle.base_price*(1/age)
+    
+myobj=Car("Tesla",2019,"Electric",True,True)
+myobj.__dict__
+myobj.get_value()
+myobj._Vehicle__private_method_parent()
+myparentobj=Vehicle("Ford",2018,"petrol")
+myparentobj.get_value()
+
+
+
+#--------------------------------------------------------------------------------------------------------------
+########################## protected members #####################################
+# in python there is nothing private or protected as such, it is just a name mangling
+
+# Parent Class
+class Vehicle():
+    current_year=2021
+    base_price=1000
+    
+    def __init__(self,make,model,fuel):
+        self.make=make
+        #Protected Attributes
+        self._model=model
+        self._fuel=fuel
+    
+    def _get_value(self):
+        age=Vehicle.current_year-self.model
+        print("This is default method of parent")
+        return Vehicle.base_price*(1/age)
+
+# Child Class
+class Car(Vehicle):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof):
+        super(Car,self).__init__(make,model,fuel)
+        #protected
+        self._air_conditioning=air_conditioning
+        self._sunroof=sunroof
+    #Overriding Method --> replaces the parent default method
+    #Protected Method
+    def _get_value(self):
+        Vehicle.base_price=5000
+        age=Vehicle.current_year-self._model
+        print("This is child override method")
+        return Vehicle.base_price*(1/age)
+
+myObj=Car("Tesla",2019,"Electric",True,True)
+
+myObj._air_conditioning
+
+myObj._sunroof
+
+myObj._get_value()
+
+#----------------------------------------------------------------------------------------------------------------
+class Cirlce:            ----> actually under the hood   --------> class Circle(object):
+=> when a class is not inheriting from someone, then by default it is inheriting from object class
+=> if a class is inheriting from object class, then there are three methods which objecct class gives; __new__(), __init__(), __str__()
+#------------------------------------------------------------------------------------------------------------
+######################################## multilevel inheritance ############################################
+#Parent class
+class Vehicle():
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.model=model
+        self.fuel=fuel
+        
+#Child Class
+class Car(Vehicle):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof):
+        super(Car,self).__init__(make,model,fuel)
+        self.air_conditioning=air_conditioning
+        self._sunroof=sunroof
+class ElectricVehcile(Car):
+    def __init__(self,make,model,fuel,air_conditioning,sunroof,distance):
+        super(ElectricVehcile,self).__init__(make,model,fuel,air_conditioning,sunroof)
+        self.distance=distance
+
+myobj=ElectricVehcile("tesla",2019,"Electric",True,True,500)
+
+myobj.__dict__

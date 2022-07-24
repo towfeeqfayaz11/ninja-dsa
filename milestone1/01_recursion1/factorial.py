@@ -1,5 +1,5 @@
 def fact(n: int) -> int:
-	if n == 0:                      # base case
+	if n == 0:                      # base case (0! = 1)
 		return 1
 
 	smallOutput = fact(n-1)         # inductionhypotheses

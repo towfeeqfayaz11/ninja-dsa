@@ -1,0 +1,197 @@
+################################################### abstract class #############################################################
+
+# An abstract class can be considered as a blueprint for other classes. It allows you to create a set of methods that must be created within any child classes built from
+  the abstract class. A class which contains one or more abstract methods is called an abstract class. An abstract method is a method that has a declaration but does not have an implementation. While we are designing large functional units we use an abstract class. 
+
+# difference between interface and abstract class
+  => An interface is sort of like an empty muffin pan. It's a class file with a set of method definitions that have no code(empty methods).
+     An abstract class is the same thing, but not all functions need to be empty. Some can have code. It's not strictly empty.
+
+# python by default doesn't have abstract classes, however there is a module called "abc", which provides a base and a decorator called @abstractmethod
+
+# by default, in python we cannot instantiate the abstract class, which inherit ABC(abstract base class). We can only instantiate the classes which inherit from 
+  abstract class
+
+  from abc import ABC,abstractmethod     # python by default on its wn doesn't provide any abstract class, so we use this builtin module to reate abstract class
+
+  class Shape(ABC):                      # abstract class
+  	@abstactmethod                       # wwe need to add abstractmethod decorator with atleast one method, to make the class as abstract class
+  	def area(self): pass
+
+  	@abstractmethod
+  	def perimeter(self): pass
+
+  class Square(Shape):                   # innherit from abstract class
+  	def __init__(self,side):
+  		self.__side = side
+
+  	def area(self):
+  		return self.__side * self.__side
+
+  	def perimeter(self):
+  		return 4 * self.__side
+
+
+  s = Shape()      # this will give error as we cannot instantiate the abstract class
+
+  square = Square(5)
+  print(square.area())
+  print(square.perimeter())
+# ----------------------------------------------------------------------------------------------------------------
+################################################################ abstract class with init ##########################################################################
+from abc import ABC,abstractmethod
+class TextReaderAbstract(ABC):
+    def __init__(self,path,filename):
+        self.path=path
+        self.filename=filename
+    @abstractmethod #this is just an interface or "RULE"
+    def get_path(self):
+        pass
+    @abstractmethod
+    def get_filename(self):
+        pass
+
+
+class TextReader(TextReaderAbstract):
+    def get_path(self):
+        return self.path
+    
+    def get_filename(self):
+        return self.filename
+
+# abstract class is enforcing the variable in the child class (in case of init)
+myobj=TextReader("/user/download","sample.txt")           # init method gets inherited and also gets implemented automatically with same parameters
+myobj.get_path()
+
+myobj.get_filename()
+
+
+
+# -------------------
+
+
+class Bank(ABC):
+    @abstractmethod
+    def get_interest(self):
+        pass
+class HDFC(ABC):
+    def get_interest(self):
+        return 8.9
+myobj=HDFC()
+
+myobj.get_interest()
+
+#--------------------------------------------------------------------------------------------------------------------------------
+# error/exception handling              # handling of runtime errors
+
+try:                           # try block contains code, which we think might raise errors/exception, e.g; zero division error
+	pass
+except Exception:              # this will catch the error thrown by try block (we can have multiple exept blocks). This one particular is general exception block        
+	pass
+else:                          # else block will only run if try clasue doesn't raise any exception 
+	pass     
+finally:                       # finally block will always run, whether exception was raised or not
+	pass
+
+
+
+# we can put more specific exceptions at top, and the general ones after that
+try:
+	f = open('text_file')
+	var = bad_var
+except FileNotFoundError:
+	print("sorry the file doesn't exist!")
+except NameError as e:                          # 'as' is used to copy the actual exception error to a variable to be used further in the block
+	print("the variable doesn't exit.", e)
+except Exception as e:                          # 'as' is used to copy the actual exception error to a variable (e in this case) to be used further in the block
+	print("other general error",e)
+
+
+
+
+
+# raise your own exceptions
+
+try:
+	f = open('corrupt_file.txt')
+	if f.name == 'corrupt_file.txt':
+		raise Exception                      # manually raising the exception
+except Exception:
+	print("Error!")
+
+#------
+
+try:
+    raise ValueError('The value error exception', 'x', 'y')
+except ValueError as ex:
+    print(ex.args)
+
+#------
+
+x = -1
+try:
+    if x < 0:
+        raise Exception("Sorry, no numbers below zero",x)
+except Exception as ex:
+    print(ex)
+    print(ex.args)
+
+#------
+
+class NegativeCarValue(Exception):
+    def __init__(self,value,message="car value cannot be negative"):
+        self.value=value
+        self.message=message
+        super().__init__(self.message)
+    
+    def __str__(self):
+        return f'{self.message}-->{self.value}'
+
+a=-1
+if a<0:
+    raise NegativeCarValue(a)
+
+class Vehicle():
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.model=model
+        self.fuel=fuel
+        self.current_year=2021
+    def get_value(self):
+        age=self.current_year-self.model
+        try:
+            if age<0:
+                raise NegativeCarValue(age)
+            else:
+                return 1000*(1/age)
+        except NegativeCarValue as e:
+            print("Error*******")
+
+myobj=Vehicle("Tesla",2023,"electric")
+
+myobj.get_value()
+
+#---------------------------------------
+# nested exception
+class Vehicle():
+    def __init__(self,make,model,fuel):
+        self.make=make
+        self.model=model
+        self.fuel=fuel
+    def get_value(self):
+        try:
+            age=2021-self.model
+            return 1000+(1/age)
+        except TypeError:
+            try:
+                age=2021-int(self.model)
+                return 1000+(1/age)
+            except ZeroDivisionError:
+                age=2021-int(self.model)
+                return 1000*(1)
+            except:
+                return "You have entered Model Year in incorrect format"
+            
+myobj=Vehicle("Tesla","new","Electric")
+
+myobj.get_value()

@@ -1,0 +1,43 @@
+# a stack follows LIFO
+
+# a stack should have five functionalties
+ 1) push()      --> add element to top of stack
+ 2) pop()       --> remove element from top of stack
+ 3) top()       --> return the top most element from stack
+ 4) size()      --> should return the size/total elements in stack
+ 5) isEmpty()   --> returns true/false based on if the stack is empty or not
+
+
+# built-in stack
+   => list can be used for builtin stack
+      > lst.append()      --> push
+      > lst.pop()         --> pop()
+      > lst[-1]           --> top()
+      > len(lst)          --> size()
+      > len(lst) == 0     --> isEmpty()
+
+   
+   => we can also use "queue" library to implement stack
+      > import queue
+      s = queue.LifoQueue()   # initialize stack    (LIFO)
+      s.put(1)                # adds element to stack (add to last)
+      s.put(3)                
+      s.put(5)
+      s.put(2)
+
+      while not s.empty():
+      	  print(s.get())     # removes and returns the element from stack   (last element is removed first)
+
+
+# QUEUE -> FIFO
+# built-in queue
+   => queue can be implemented using queue package
+      > import queue
+        q = queue.Queue()          # initializes queue     (FIFO)
+
+        q.put(1)                   # adds element to queue (add to last)
+        q.put(3)
+        q.put(5)
+
+        while not q.empty():
+        	print(q.get())         # removes and returns the first element in the queue

@@ -1,0 +1,218 @@
+#--------------------------------dunder methods/operator overloading/class attributes-----------------------------------------------#
+# in python, there are special methods that are invoked directly or by special syntax. These method are called dunder methods. This is python's way of implementing operator overloading
+
+# Operator Overloading means giving extended meaning beyond their predefined operational meaning.
+
+e.g;
+=> For example operator + is used to add two integers as well as join two strings and merge two lists. It is achievable because ‘+’
+   operator is overloaded by int class and str class.You might have noticed that the same built-in operator or function shows different behavior for objects of different classes, this is called Operator Overloading. 
+=> How to overload the operators in Python? 
+   => In Python, a class can have special methods that are invoked by special syntax (such as arithmetic operations) by defining methods with certain names.
+   => Consider that we have two objects which are a physical representation of a class (user-defined data type) and we have to add two objects with binary ‘+’ operator, 
+      it throws an error, So we define a method for an operator and that process is called operator overloading.because compiler don’t know how to add two objects.
+   => So we define a method for an operator and that process is called operator overloading.
+** => We can overload all existing operators but we can’t create a new operator. 
+   => To perform operator overloading, Python provides some special function or magic function that is automatically invoked when it 
+      is associated with that particular operator. For example, when we use + operator, the magic method __add__ is automatically invoked in which the operation for + operator is defined.
+
+   => Overloading binary + operator in Python : 
+      When we use an operator on user defined data types then automatically a special function or magic function associated with that operator is invoked. Changing the behavior of operator is as simple as changing the behavior of method or function. You define methods in your class and operators work according to that behavior defined in methods. When we use + operator, the magic method __add__ is automatically invoked in which the operation for + operator is defined. There by changing this magic method’s code, we can give extra meaning to the + operator. 
+
+      code:
+        class A:
+		    def __init__(self, a):
+		        self.a = a
+		 
+		    # adding two objects
+		    def __add__(self, o):
+		        return self.a + o.a
+		ob1 = A(1)
+		ob2 = A(2)
+		ob3 = A("Geeks")
+		ob4 = A("For")
+		 
+		print(ob1 + ob2)
+		print(ob3 + ob4)
+
+	  output:
+	  3
+      GeeksFor
+
+NOTE: different dunder methods get invoked differently in python
+
+
+# some other dunder methods:
+> When you call str() on an object, it calls the special method __str__ of the object.
+> And when you call repr() on an object, it calls the special method __repr__ of the object.
+> Also, when you call print() on an object, it calls __str__ method of the object. If __str__ is not implemented, the __repr__ is called as a fallback.
+
+# rule of thumb: __repr__ is for developers, __str__ is for customers. __repr__ goal is to be unambiguous. __str__ goal is to be readable
+
+
+# ref doc: https://levelup.gitconnected.com/python-dunder-methods-ea98ceabad15
+
+# some dunder methods can also be invoked by a wrapper method:
+  => object.__str__(self)                is same as      str(object)
+  => object.__getattr__(self,name)       is same as      getattr(object,name)          is same as          object.name
+  => object.__hasattr__(self,name)       is same as      hasattr(object,name)
+  => object.__delattr__(self,name)       is same as      delattr(object,name)
+
+
+# -------------------------------------------------------------------------------
+# OOPS rules/properties
+1) the init function should never return anything other than None, else it will be an error
+2) When we declare a variable inside a class but outside any method, it is called as class or static variable in python.
+3) Even though staticmethod doesnot know about the class or object attributes directly, however we can still modify the class/satic
+   variables from within the static method simply by referencing the variables with the class name. e.g; Student.total_roll = <new value>.
+4) the best practice is not to use static method to modify the static or class variables
+5) To decide whether to use @staticmethod or @classmethod you have to look inside your method. If your method accesses other 
+   variables/methods in your class then use @classmethod. On the other hand, if your method does not touches any other parts of the class then use @staticmethod.
+6) classmethod is defined as mutable via inheritance, while staticmethod is defined as immutable via inheritance
+
+
+
+## instace, static and class methods
+class MyClass:
+    def method(self):
+        return 'instance method called', self
+
+    @classmethod
+    def classmethod(cls):
+        return 'class method called', cls
+
+    @staticmethod
+    def staticmethod():
+        return 'static method called'
+
+=> static and class methods can be called even without instantiating the class
+  => instance methods:=> the method takes one parameter, self, which points to an instance of MyClass when the method is called 
+                         (but of course instance methods can accept more than just one parameter).
+                     :=> Through the self parameter, instance methods can freely access attributes and other methods on the same
+                         object. This gives them a lot of power when it comes to modifying an object’s state.
+                     :=> Not only can they modify object state, instance methods can also access the class itself through the
+                         self.__class__ attribute. This means instance methods can also modify class state.
+
+  => class methods   :=> Instead of accepting a self parameter, class methods take a cls parameter that points to the class—and 
+                         not the object instance—when the method is called.
+                     :=> Because the class method only has access to this cls argument, it can’t modify object instance state. 
+                         That would require access to self. However, class methods can still modify class state that applies across all instances of the class.
+  
+  => static methods  :=> This type of method takes neither a self nor a cls parameter (but of course it’s free to accept an 
+                         arbitrary number of other parameters).
+#---------------------------------------------------------------------------------
+# access modifiers in python (public,private,protected)
+
+class Person:
+    def __init__(self, name, age, height):
+        self.name     = name   # public
+        self._age     = age    # protected
+        self.__height = height # private
+    def getname(self):
+        print(self.name)
+    def _getname1(self):
+        print(self.name)
+    def __getname2(self):
+        print(self.name)
+
+p1 = Person("John", 20, 170)
+
+print(p1.name)               # public: can be accessed
+print(p1._age)               # protected: can be accessed but not advised
+print(p1._Person__height)    # way to access private members (strongly not recommended)
+# print(p1.__height)         # private: will give AttributeError
+
+p1.getname()                 # public: can be accessed
+p1._getname1()               # protected: can be accessed but not advised
+p1._Person__getname2()       # way to access private members (strrongly not recommended)
+p1.__getname2()              # private: will give AttributeError
+
+NOTE: You can still access the private members outside the class. Python performs name mangling, so every member prefixed with __ is changed to _class__member. 
+      So, accessing name will then be p1._Person__name. However, this is highly unadvised.
+NOTE: None of those terms except "public" really apply in Python.
+      The "private" version only "works" due to the mangling effect __ has on the name, but it's still possible to access it.
+      "Protected" here is even weaker "protection". It can be accessed normally as you show. It's only by convention that a single underscore prefix shouldn't be used.
+
+
+# Public members (generally methods declared in a class) are accessible from outside the class. The object of the same class is required to invoke a public method. This arrangement of private instance variables and public methods ensures the principle of data encapsulation.
+
+# Protected members of a class are accessible from within the class and are also available to its sub-classes. No other environment is permitted access to it. This enables specific resources of the parent class to be inherited by the child class.
+
+# Python doesn't have any mechanism that effectively restricts access to any instance variable or method. Python prescribes a convention of prefixing the name of the variable/method with single or double underscore to emulate the behaviour of protected and private access specifiers.
+# -----------------------------------------------------------------------------
+##### static and class methods #####
+class ExpenseTracker:
+    #class attribute
+    expense_version_tracker=0.1
+    def __init__(self,track_category,original_balance,budget):
+        #instance/object Attributes
+        self.tracking_category=track_category
+        self.original_balance=original_balance
+        self.tracker_budget=budget
+        #instance method
+    def get_original_balance(self):
+        return self.original_balance
+    def check_balance(self,limit=1000):
+        if self.tracker_budget>=limit:
+            return True
+        else:
+            return "Your opening balance is less than limit"
+    @staticmethod
+    def convert_amount(amount):
+            return float(amount)
+    @classmethod
+    def get_attributes_fromstring(cls,diary_entry:str):
+        tracking_category,opening_balance,tracker_budget=diary_entry.split(" ")
+        return ExpenseTracker(tracking_category.capitalize(),
+                             cls.convert_amount(opening_balance),
+                             cls.convert_amount(tracker_budget))
+ClassObject=ExpenseTracker.get_attributes_fromstring("shopping 100 5000")
+ClassObject.__dict__
+==============================================================================
+===> polymorphism <===
+=> types: 
+         compiletime polymorphism  --> types: function overloading, operator overloading
+         runtime polymorphism      --> types: function overriding
+
+   => function overloading -> is achieved when the same class has multiple functions defined with same name but different numbers 
+                              of arguments.
+                           -> Method overloading is used to add more to the behavior of methods and there is no need of more than one 
+                              class for method overloading.
+                    Note: Python does not support method overloading. We may overload the methods but can only use the 
+                          latest defined method.
+
+   => operator overloading -> Operator Overloading means giving extended meaning beyond their predefined operational meaning. 
+                              For example operator + is used to add two integers as well as join two strings and merge two lists. It is achievable because ‘+’ operator is overloaded by int class and str class.
+                           -> in python, there are special methods that are invoked directly or by special syntax. These method are
+                              called dunder methods. This is python's way of implementing operator overloading
+                           -> Operator Overloading means giving extended meaning beyond their predefined operational meaning.
+
+   => function overriding  -> Method overriding is an example of run time polymorphism. In this, the specific implementation of the
+                              method that is already provided by the parent class is provided by the child class. It is used to change the behavior of existing methods and there is a need for at least two classes for method overriding. In method overriding, inheritance always required as it is done between parent class(superclass) and child class(child class) methods.
+
+
+
+
+===> abstraction <===
+=> Abstraction means displaying only essential information and hiding the details. Data abstraction refers to providing only 
+   essential information about the data to the outside world, hiding the background details or implementation.
+=> Access specifiers are the main pillar of implementing abstraction
+=> We can use access specifiers to enforce restrictions on class members. For example:
+   > Members declared as public in a class, can be accessed from anywhere in the program.
+   > Members declared as private in a class, can be accessed only from within the class. They are not allowed to be accessed from 
+     any part of code outside the class.
+   => We can easily implement abstraction using the above two features provided by access specifiers. 
+=> with help of getters/setters, we can limit the access to the data members and thus implement abstraction
+
+
+
+
+
+===> encapsulation <===
+=> Encapsulation is an Object Oriented Programming concept that binds together the data and functions that manipulate the data, 
+   and that keeps both safe from outside interference and misuse.
+=> we have class member variables and member functions which, which are bind together using class object. Thus classes/objects 
+   helps us to implement encapsulation
+
+
+
+

@@ -3,6 +3,7 @@
 # terms:            0th   1th   2nd    3rd    4th    5th     6th     7th...
 
 
+# to return nth term of a fibonacci series
 def nth_fibonacci(n: int) -> int:
 	if n == 1 or n == 2:                       # some questions can have multiple base cases
 		return 1

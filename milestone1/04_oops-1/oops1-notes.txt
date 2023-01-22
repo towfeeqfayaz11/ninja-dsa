@@ -1,3 +1,41 @@
+## OOPS's
+
+# there are 4 pillars of OOP's;
+1) data abstraction   -> is the process to identify the relevant and irrelevant data for the user,
+                         so it is also the process of restricting the direct access of the data members 
+                         (which can be achieved using data encapsulation)
+
+2) data encapsulation -> is the process of bundling the data variable and methods which operate on them, 
+                         so it is also the process of restricting the direct access of the data members.
+                         encapsulating the data and function together inside a class also results in data abstraction. 
+
+   NOTE:                 data encapsulation is the practical implementation of data abstraction 
+
+3) inheritance        -> child class inherits from parent class
+
+4) polymorphism       -> whenever an entity can change its behaviour based on the arguments supplied to the entity,
+                         then it is said to be polymorphism.
+
+                         -> can be implemented in three ways; 
+                            1) method overloading   :- whenever class contains more than one method with same name but different
+                                                       parameter, it is called method overloading
+
+                                                       NOTE: python doesn't support method overloading, we may overload the method but
+                                                             can only use the latest defined method
+
+                            2) method overriding    :- whenever we write method name with same signature in parent class and child class,
+                                                       it is called method overriding. We cannot perform overriding without inheritance.
+                                                       Method overriding is supported in python
+
+                                                       whenever the method definition of base class is modified at derived class, it 
+                                                       is called method overriding
+
+                            3) operator overloading :- Operator overloading facilitates the specification of user-defined implementation 
+                                                       for operations wherein one or both operands are of user-defined class.
+                                                       Python operators work for built-in classes, and the same operator behaves differently
+                                                       with different data types.
+                                                       We can use the dunder methods for operator overloading on custom types.
+
 #--------------------------------dunder methods/operator overloading/class attributes-----------------------------------------------#
 # in python, there are special methods that are invoked directly or by special syntax. These method are called dunder methods. This is python's way of implementing operator overloading
 
